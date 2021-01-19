@@ -70,15 +70,27 @@
 
                 QItem(
                   clickable
-                  @click="openUpdPanel(row.id, row.name)")
+                  @click="getToken(row.id)")
                   QItemSection(
                     avatar
                     style="min-width: 10px; padding-right: 5px;")
                     QIcon(
                       size="xs"
                       left
-                      name="content_copy")
-                  QItemSection 複製
+                      name="link")
+                  QItemSection 問卷接口
+
+                //- QItem(
+                //-   clickable
+                //-   @click="openUpdPanel(row.id, row.name)")
+                //-   QItemSection(
+                //-     avatar
+                //-     style="min-width: 10px; padding-right: 5px;")
+                //-     QIcon(
+                //-       size="xs"
+                //-       left
+                //-       name="content_copy")
+                //-   QItemSection 複製
 
                 QItem(
                   v-if="isInQueued(row.id)"
@@ -135,6 +147,48 @@
               color="primary"
               @click.prevent="delSurvey")
 
+  QDialog(
+    v-model="hasToken"
+    persistent)
+    QCard
+      QCardSection.bg-teal.text-white
+        span.text-body1 問卷接口
+
+        QBtn.float-right(
+          v-close-popup
+          size="0.7rem"
+          dense
+          flat
+          icon="close")
+
+      QCardSection.text-body2.q-gutter-y-sm
+        .q-gutter-x-md
+          span 取得問卷:
+          QInput.inline(
+            style="min-width: 300px;"
+            readonly
+            dense
+            outlined
+            :value="getApi")
+
+        .q-gutter-x-md
+          span 送出問卷:
+          QInput.inline(
+            style="min-width: 300px;"
+            readonly
+            dense
+            outlined
+            :value="postApi")
+
+        .text-center 問卷接口提供給前端開發進行串接
+
+      QCardActions.bg-white.text-teal(align="right")
+        QBtn(
+          v-close-popup
+          color="primary"
+          unelevated
+          label="關閉")
+
   BaseCard
     template(v-slot:card-header)
       i.fa.fa-map-marker
@@ -151,6 +205,7 @@
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator'
 import {
+  QDialog,
   QMenu,
   QList,
   QItem,
@@ -163,6 +218,8 @@ import { listModel } from '@/units/datatable/survey'
 
 import { SurveyInfo } from '@/types'
 import { GridList } from '@src/types'
+
+import service from '@/service/serviceContainer'
 
 import CatchMixin from '@core/mixin/cacheMixin'
 import GridContainer from '@m/grid/index.tsx'
@@ -189,14 +246,18 @@ export default class SurveyList extends CatchMixin {
   protected gridModel = listModel
   protected gridData: GridList = []
 
-  private api: string = `sv?platform=${process.env.PROJ_PLATFORM}`
   private cancelConfirm = false
   private targetRow = {}
+
+  // 前台使用的接口
+  private getApi = ''
+  private postApi = ''
+  private hasToken = false
 
   private async getter(
     fetch: (url: string, params?: object) => Promise<void | GridList>
   ) {
-    const gridData = await fetch(this.api)
+    const gridData = await fetch(`sv?platform=${process.env.PROJ_PLATFORM}`)
 
     if (gridData) {
       this.gridData = gridData
@@ -257,6 +318,15 @@ export default class SurveyList extends CatchMixin {
     this.cancelConfirm = false
 
     this.getter(this.$refs.surveyGridContainer.fetch)
+  }
+
+  private async getToken(sid: number) {
+    const token = await service.$survey.getToken(sid)
+
+    this.getApi = `${window.location.protocol}//${window.location.host}/fsv/s/${token}`
+    this.postApi = `${window.location.protocol}//${window.location.host}/fsv/send`
+
+    this.hasToken = true
   }
 
   private isInQueued(sid: number) {

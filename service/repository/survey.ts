@@ -43,7 +43,11 @@ class SurveyService {
   }
 
   getQues(sid: number) {
-    return this.$http.get(`sv/s?id=${sid}`)
+    return this.$http.get(`sv/s/id/${sid}`)
+  }
+
+  getToken(sid: number) {
+    return this.$http.get(`sv/t/id/${sid}`)
   }
 }
 
