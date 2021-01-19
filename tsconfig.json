@@ -1,0 +1,36 @@
+{
+  "extends": "../../../../tsconfig.json",
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.vue"
+  ],
+  "compilerOptions": {
+    "paths": {
+      "@/*": [
+        "src/app/ub/surveypack/*"
+      ],
+      "@src/*": [
+        "src/*"
+      ],
+      "@core/*": [
+        "src/core/*"
+      ],
+      "@c/*": [
+        "src/component/*"
+      ],
+      "@m/*": [
+        "src/module/*"
+      ],
+      "@t/*": [
+        "src/theme/*"
+      ],
+      "@u/*": [
+        "src/utils/*"
+      ],
+      "@public/*": [
+        "public/*"
+      ]
+    }
+  }
+}
