@@ -121,7 +121,7 @@ const actions: ActionTree<SurveyState, RootState> = {
       throw new Error('target survey empty')
     }
 
-    if (surveyInfo!.ques && surveyInfo!.ques.length) {
+    if (surveyInfo.ques && surveyInfo.ques.length) {
       commit('SET_TARGET', surveyInfo)
       return
     }
@@ -173,7 +173,9 @@ const actions: ActionTree<SurveyState, RootState> = {
   delQue({ state, commit }, qid: number | string) {
     commit('DEL_QUE', qid)
     commit('SET_SURVEY_IN_LIST', state.target)
-  }
+  },
+  collapseOn() {},
+  collapseOff() {}
 }
 
 export default {

@@ -47,6 +47,20 @@ export default class ItemContainer extends Vue {
     this.uuid = this.generateId()
 
     if (typeof this.qid === 'string') this.editState = true
+
+    this.unsubscribe = this.$store.subscribeAction(action => {
+      if (action.type === 'survey/collapseOn' && this.editState === false) {
+        this.isCollapse = false
+      }
+
+      if (action.type === 'survey/collapseOff' && this.editState === false) {
+        this.isCollapse = true
+      }
+    })
+  }
+
+  destroy() {
+    this.unsubscribe()
   }
 
   render() {
@@ -263,4 +277,6 @@ export default class ItemContainer extends Vue {
         .substring(2, 5)
     )
   }
+
+  private unsubscribe: () => void = () => {}
 }

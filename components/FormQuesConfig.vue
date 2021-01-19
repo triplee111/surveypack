@@ -27,7 +27,7 @@
       template(#after)
         .row.q-ml-lg.q-gutter-y-md(v-once)
           .col-12.text-grey-7.q-pt-lg
-            span 選擇題型
+            span 選項題型
           .col-6
             QBtn.full-width(
               outline
@@ -91,6 +91,30 @@
               label="分隔線/分頁"
               @click="addQue('divider')")
 
+          .col-12
+            QBtn(
+              no-shadow
+              dense
+              flat
+              unelevated
+              @click.prevent="$store.dispatch('survey/collapseOff')")
+              QIcon(
+                color="grey-6"
+                size="0.8rem"
+                name="fa fa-compress")
+              span.text-body2.text-grey-6.q-ml-xs 收合題目
+
+            QBtn(
+              no-shadow
+              dense
+              flat
+              unelevated
+              @click.prevent="$store.dispatch('survey/collapseOn')")
+              QIcon(
+                color="grey-6"
+                size="0.8rem"
+                name="fa fa-expand")
+              span.text-body2.text-grey-6.q-ml-xs  展開題目
 
     QDialog(
       v-model="confirmState"
