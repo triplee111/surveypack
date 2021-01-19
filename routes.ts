@@ -53,7 +53,7 @@ export default [
               roles: ['super'],
               title: '問卷設定',
               icon: 'icon-settings',
-              confirm: process.env === 'production'
+              confirm: process.env.NODE_ENV === 'production'
             }
           }
         ]
