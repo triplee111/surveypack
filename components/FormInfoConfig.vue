@@ -1,5 +1,5 @@
 <template lang="pug">
-.col-xs-12.col-md-8
+.col-xs-12.col-md-10
   QForm(ref="survey-edit-step1")
     .row
       .col-md-2.q-pt-sm
@@ -14,7 +14,7 @@
       .col-xs-12.q-gutter-y-sm
         .row.col-xs-12
           .col-md-2.q-pt-md
-            span.body-text2.text-blue-grey.text-weight-bold 開放狀態
+            span.body-text2.text-blue-grey.text-weight-bold 問卷狀態
           .col-md-10
             QToggle(
               v-model="form.active"
@@ -36,7 +36,7 @@
           .col-md-2.q-pt-md
             span.body-text2.text-blue-grey.text-weight-bold 回收數量上限
           .col-md-10.q-gutter-x-sm
-            QToggle(
+            QToggle.q-mb-xs(
               v-model="isLimited"
               size="lg"
               checked-icon="check"
@@ -50,18 +50,25 @@
               :rules="[val => isInteger(val) || '請輸入正整數']"
               type="number"
               style="width: 120px;"
-              input-style="text-align: center;")
+              input-style="text-align: center;"
+              hide-bottom-space)
 
         .row.q-mb-md.col-xs-12
           .col-md-2.q-pt-md
             span.body-text2.text-blue-grey.text-weight-bold 參與名單設定
+            QChip(
+              icon="star"
+              size="sm"
+              color="primary"
+              text-color="white")
+              span 專業版功能
           .col-md-10
             QToggle(
               v-model="form.restrict"
               size="lg"
               checked-icon="check"
               color="success"
-              disabled
+              disable
               unchecked-icon="clear")
 
         QSeparator.q-mb-lg
@@ -84,21 +91,27 @@
               qid="survey-edit-intro"
               placeholder="在這裡設定此份問卷/活動的敘述，非必填項目，依前台專案需求而定，可用於規則文案")
 
+        .row.q-mt-lg
+          .col-md-2.q-pt-sm
+            span.body-text2.text-blue-grey.text-weight-bold 感謝文字
+          .col-md-10
+            QuasarEditor(
+              v-model="form.confirm"
+              qid="survey-edit-confirm"
+              placeholder="在這裡設定使用者送出問卷後的確認文案，非必填項目，依前台專案需求而定")
+
 </template>
 
 <script lang="ts">
 import { Prop, Watch, Component } from 'vue-property-decorator'
-import { QSeparator } from 'quasar'
+import { QSeparator, QChip } from 'quasar'
 
-import { Survey, SurveyConfig } from '@/types'
+import { SurveyConfig } from '@/types'
 
-import service from '@/service/serviceContainer'
 import QuasarEditor from '@c/editor/QuasarEditor.vue'
 
 import CatchMixin from '@core/mixin/cacheMixin'
 import Datetimepicker from '@c/datepicker/Flatpickr.vue'
-import errorMessageHandler from '@u/store/error-message-handler'
-import { danger } from '@u/notify/notify-quasar'
 
 @Component({
   model: {
@@ -107,7 +120,8 @@ import { danger } from '@u/notify/notify-quasar'
   components: {
     QSeparator,
     Datetimepicker,
-    QuasarEditor
+    QuasarEditor,
+    QChip
   }
 })
 export default class InfoConfig extends CatchMixin {
