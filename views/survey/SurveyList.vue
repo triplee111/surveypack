@@ -78,7 +78,7 @@
                       size="xs"
                       left
                       name="link")
-                  QItemSection 問卷接口
+                  QItemSection API 接口
 
                 //- QItem(
                 //-   clickable
@@ -104,7 +104,7 @@
                       size="xs"
                       left
                       name="delete")
-                  QItemSection 編輯中
+                  QItemSection 編輯中...
                 QItem(
                   v-else
                   clickable

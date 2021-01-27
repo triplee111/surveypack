@@ -26,7 +26,7 @@
 </template>
 
 <script lang="ts">
-import { Prop, Component, Watch, Vue } from 'vue-property-decorator'
+import { Prop, Component, Vue } from 'vue-property-decorator'
 import { QRange, QItem, QItemSection } from 'quasar'
 
 import { Que } from '@/types'

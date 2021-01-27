@@ -81,7 +81,7 @@
               outline
               icon="format_quote"
               color="primary"
-              label="引言"
+              label="引言區塊"
               @click="addQue('quote')")
           .col-6
             QBtn.full-width(
@@ -160,7 +160,6 @@ import { Prop, Component } from 'vue-property-decorator'
 import { QSplitter, QCardActions } from 'quasar'
 
 import { QueTypes } from '@/units/template'
-import service from '@/service/serviceContainer'
 
 import { Que } from '@/types'
 
