@@ -8,7 +8,7 @@ const AttrOthersOpt = () => import('./AttrOthersOpt.vue')
 const AttrVisible = () => import('./AttrVisible.vue')
 const AttrOptsRange = () => import('./AttrOptsRange.vue')
 const AttrQuote = () => import('./AttrQuote.vue')
-
+const AttrOptLayout = () => import('./AttrOptLayout.vue')
 @Component({
   components: {
     AttrRequired,
@@ -16,7 +16,8 @@ const AttrQuote = () => import('./AttrQuote.vue')
     AttrOthersOpt,
     AttrVisible,
     AttrOptsRange,
-    AttrQuote
+    AttrQuote,
+    AttrOptLayout
   }
 })
 export default class AttrContainer extends Vue {
@@ -33,7 +34,8 @@ export default class AttrContainer extends Vue {
     'othersOpt',
     'visible',
     'optsRange',
-    'quote'
+    'quote',
+    'optLayout'
   ]
   private attrsHasFooter = ['optsRange', 'quote'] // 擁有額外操作介面的屬性按鈕
 

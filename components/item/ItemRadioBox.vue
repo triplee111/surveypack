@@ -60,7 +60,7 @@ export default class ItemRadioBox extends Vue {
   @Prop({ type: Object })
   readonly value!: Que
 
-  private attrs = ['required', 'visible', 'comment', 'othersOpt']
+  private attrs = ['required', 'visible', 'comment', 'othersOpt', 'optLayout']
 
   get que() {
     return this.value
