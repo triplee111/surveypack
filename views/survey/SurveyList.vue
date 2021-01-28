@@ -278,15 +278,15 @@ export default class SurveyList extends CatchMixin {
 
   private openAddPanel(): void {
     this.$router.push({
-      path: '/panel/config-survey/add',
+      path: '/panel/config-survey/add/1',
       query: { title: '新增問卷' }
     })
   }
 
   private openUpdPanel(sid: number, name: string): void {
     this.$router.push({
-      path: `/panel/config-survey/${sid}`,
-      query: { title: this.truncateStr(name, 8) }
+      path: `/panel/config-survey/${sid}/1`,
+      query: { title: name }
     })
   }
 
@@ -315,13 +315,6 @@ export default class SurveyList extends CatchMixin {
     return this.$store.state.view.queuedList.some(
       (view: any) => view.path === `/panel/config-survey/${sid}`
     )
-  }
-
-  private truncateStr(str: string, num: number) {
-    if (str.length <= num) {
-      return str
-    }
-    return str.slice(0, num) + '..'
   }
 }
 </script>
