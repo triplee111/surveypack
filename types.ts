@@ -39,6 +39,7 @@ export interface SurveyConfig {
   restrict: boolean
   title: string
   intro: string
+  confirm: string
 }
 
 export interface SurveyInfo extends SurveyConfig {

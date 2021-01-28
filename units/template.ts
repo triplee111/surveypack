@@ -9,6 +9,7 @@ export const survey: Survey = {
   restrict: false,
   title: '無標題問卷',
   intro: '',
+  confirm: '',
   ques: []
 }
 
