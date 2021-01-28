@@ -5,6 +5,11 @@ interface QueConfig {
     max: number
   }
   quote?: string
+  optsUi?: 'radiobox' | 'menu'
+  optsColumn?: {
+    desktop: number
+    mobile: number
+  } // 每列個數
 }
 
 export interface QueOpt {

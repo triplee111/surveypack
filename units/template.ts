@@ -26,7 +26,12 @@ const radiobox = Object.freeze({
   ...queBase,
   type: 'radio-box',
   config: {
-    others: false
+    others: false,
+    optsUi: 'radiobox',
+    optsColumn: {
+      desktop: 2,
+      mobile: 1
+    }
   },
   opts: [
     {
