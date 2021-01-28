@@ -63,7 +63,14 @@ export default class SubjectMultiAnswer extends Vue {
   @Prop({ type: Object })
   readonly value!: Que
 
-  private attrs = ['comment', 'required', 'visible', 'othersOpt', 'optsRange']
+  private attrs = [
+    'comment',
+    'required',
+    'visible',
+    'othersOpt',
+    'optsRange',
+    'optLayout'
+  ]
 
   get que() {
     return this.value
