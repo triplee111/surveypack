@@ -64,19 +64,18 @@
       ul.q-gutter-sm.q-px-lg
         li 新增的問題在沒有按下「完成」之前，按「取消」相等於刪除問題
         li 問卷題目較多的時候，建議開啟右上角的全螢幕模式
+        li 排版項目不帶題號
 
 </template>
 
 <script lang="ts">
-import { Component, Prop, Watch } from 'vue-property-decorator'
+import { Component, Prop } from 'vue-property-decorator'
 
-import { Survey, SurveyInfo, Que, SurveyConfig } from '@/types'
+import { SurveyInfo, Que } from '@/types'
 
 import InfoConfig from '@/components/FormInfoConfig.vue'
 import QuesConfig from '@/components/FormQuesConfig.vue'
 
-import { FormContent } from '@src/types'
-import apiPathResolver from '@u/helper/api-path-resolve'
 import CatchMixin from '@core/mixin/cacheMixin'
 import FormContainer from '@m/form'
 

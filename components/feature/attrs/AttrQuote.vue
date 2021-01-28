@@ -54,7 +54,7 @@
 </template>
 
 <script lang="ts">
-import { QDialog, QCardActions } from 'quasar'
+import { QCardActions } from 'quasar'
 import { Prop, Component, Vue } from 'vue-property-decorator'
 
 import { Que } from '@/types'
@@ -64,7 +64,6 @@ import AttrBtn from './attrBtn'
 
 @Component({
   components: {
-    QDialog,
     QCardActions,
     QuasarEditor,
     AttrBtn

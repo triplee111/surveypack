@@ -9,23 +9,6 @@
     //- Toolbar
     template(#grid-card-toolbar="{ fetch }")
       .q-gutter-x-md.q-my-xs
-        //- QSelect.inline(
-        //-   v-model="actId"
-        //-   v-bind="qSelectStyle"
-        //-   :options="activityOps"
-        //-   @input="getter(fetch)")
-        //-   template(#prepend)
-        //-     span.text-blue-grey-6.text-weight-bold 選擇活動
-
-        //-   template(#after)
-        //-     QBtn(
-        //-       v-if="actId && gridData.length === 0"
-        //-       unelevated
-        //-       dense
-        //-       color="danger"
-        //-       icon="delete"
-        //-       @click.prevent="delActConfirm = true")
-
         QBtn(
           unelevated
           outline
@@ -203,9 +186,8 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from 'vue-property-decorator'
+import { Component } from 'vue-property-decorator'
 import {
-  QDialog,
   QMenu,
   QList,
   QItem,

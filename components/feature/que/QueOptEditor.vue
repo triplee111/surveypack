@@ -46,27 +46,29 @@
               transition-hide="fade"
               :offset="[0, 5]") 移除選項
 
-          //- QIcon.cursor-pointer.inline(
-          //-   size="xs"
-          //-   color="grey-5"
-          //-   name="launch")
-          //-   QTooltip(
-          //-     anchor="top middle"
-          //-     self="bottom middle"
-          //-     transition-show="fade"
-          //-     transition-hide="fade"
-          //-     :offset="[0, 5]") 跳至指定問題
+          QIcon.cursor-pointer.inline(
+            size="xs"
+            color="grey-5"
+            name="launch"
+            @click="proWarning")
+            QTooltip(
+              anchor="top middle"
+              self="bottom middle"
+              transition-show="fade"
+              transition-hide="fade"
+              :offset="[0, 5]") 跳至指定問題
 
-          //- QIcon.cursor-pointer.inline(
-          //-   size="xs"
-          //-   color="grey-5"
-          //-   name="link")
-          //-   QTooltip(
-          //-     anchor="top middle"
-          //-     self="bottom middle"
-          //-     transition-show="fade"
-          //-     transition-hide="fade"
-          //-     :offset="[0, 5]") 連接隱藏問題
+          QIcon.cursor-pointer.inline(
+            size="xs"
+            color="grey-5"
+            name="link"
+            @click="proWarning")
+            QTooltip(
+              anchor="top middle"
+              self="bottom middle"
+              transition-show="fade"
+              transition-hide="fade"
+              :offset="[0, 5]") 連接隱藏問題
 
           QIcon.cursor-pointer(
             size="xs"
@@ -78,7 +80,8 @@
               self="bottom middle"
               transition-show="fade"
               transition-hide="fade"
-              :offset="[0, 5]") 隱藏選項
+              :offset="[0, 5]"
+              @click="proWarning") 隱藏選項
 
     .row.opt-others(v-if='hasOthers')
       label.opt-drag.q-mr-sm.opt-label
@@ -106,27 +109,29 @@
             transition-hide="fade"
             :offset="[0, 5]") 移除
 
-        //- QIcon.cursor-pointer.inline(
-        //-   size="xs"
-        //-   color="grey-5"
-        //-   name="launch")
-        //-   QTooltip(
-        //-     anchor="top middle"
-        //-     self="bottom middle"
-        //-     transition-show="fade"
-        //-     transition-hide="fade"
-        //-     :offset="[0, 5]") 跳至指定問題
+        QIcon.cursor-pointer.inline(
+          size="xs"
+          color="grey-5"
+          name="launch"
+          @click="proWarning")
+          QTooltip(
+            anchor="top middle"
+            self="bottom middle"
+            transition-show="fade"
+            transition-hide="fade"
+            :offset="[0, 5]") 跳至指定問題
 
-        //- QIcon.cursor-pointer.inline(
-        //-   size="xs"
-        //-   color="grey-5"
-        //-   name="link")
-        //-   QTooltip(
-        //-     anchor="top middle"
-        //-     self="bottom middle"
-        //-     transition-show="fade"
-        //-     transition-hide="fade"
-        //-     :offset="[0, 5]") 連接隱藏問題
+        QIcon.cursor-pointer.inline(
+          size="xs"
+          color="grey-5"
+          name="link"
+          @click="proWarning")
+          QTooltip(
+            anchor="top middle"
+            self="bottom middle"
+            transition-show="fade"
+            transition-hide="fade"
+            :offset="[0, 5]") 連接隱藏問題
 
 </template>
 
@@ -134,11 +139,13 @@
 import cloneDeep from 'lodash/cloneDeep'
 import draggable from 'vuedraggable'
 
+import { QTooltip } from 'quasar'
+import { Prop, Component, Vue } from 'vue-property-decorator'
+
 import { QueOpt } from '@/types'
 import { optOthers } from '@/units/template'
 
-import { QTooltip } from 'quasar'
-import { Prop, Component, Watch, Vue } from 'vue-property-decorator'
+import { warning } from '@src/utils/notify/notify-quasar'
 
 @Component({
   components: {
@@ -254,6 +261,10 @@ export default class QueOptEditor extends Vue {
 
   private getChar(index: number) {
     return String.fromCharCode(index + 97)
+  }
+
+  private proWarning() {
+    warning('專案版功能，請付費解鎖')
   }
 }
 </script>
