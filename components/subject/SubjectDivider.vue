@@ -1,5 +1,5 @@
 <template lang="pug">
-  ItemContainer(
+  SubjectContainer(
     :que.sync="que"
     @cancel="$emit('cancel', order - 1)"
     @copy="$emit('copy', que)")
@@ -53,7 +53,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 
 import { Que } from '@/types'
 
-import ItemContainer from './ItemContainer'
+import SubjectContainer from './SubjectContainer'
 
 import HeaderGroup from '@/components/feature/que/QueHeaderGroup.vue'
 import ContentInput from '@/components/feature/que/QueContentInput.vue'
@@ -64,13 +64,13 @@ import AttrBtn from '@/components/feature/attrs/attrBtn'
     event: 'update'
   },
   components: {
-    ItemContainer,
+    SubjectContainer,
     HeaderGroup,
     ContentInput,
     AttrBtn
   }
 })
-export default class ItemDivider extends Vue {
+export default class SubjectDivider extends Vue {
   @Prop({ type: Number })
   readonly order!: number
 

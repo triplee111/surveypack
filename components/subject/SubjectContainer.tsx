@@ -11,7 +11,7 @@ import { Que } from '@/types'
     QExpansionItem
   }
 })
-export default class ItemContainer extends Vue {
+export default class SubjectContainer extends Vue {
   @Prop()
   readonly que!: Que
 

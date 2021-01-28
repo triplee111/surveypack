@@ -1,12 +1,12 @@
 <template lang="pug">
-  ItemContainer(
+  SubjectContainer(
     :que.sync="que"
     @cancel="$emit('cancel', order - 1)"
     @copy="$emit('copy', que)")
 
     template(#header="{ editState }")
       HeaderGroup(
-        icon="check_box"
+        icon="radio_button_checked"
         :no="no"
         :editState="editState"
         :required="que.required"
@@ -34,7 +34,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 
 import { Que } from '@/types'
 
-import ItemContainer from './ItemContainer'
+import SubjectContainer from './SubjectContainer'
 import AttrContainer from '@/components/feature/attrs/AttrContainer'
 
 import HeaderGroup from '@/components/feature/que/QueHeaderGroup.vue'
@@ -46,14 +46,14 @@ import OptEditor from '@/components/feature/que/QueOptEditor.vue'
     event: 'update'
   },
   components: {
-    ItemContainer,
+    SubjectContainer,
     AttrContainer,
     HeaderGroup,
     ContentInput,
     OptEditor
   }
 })
-export default class ItemCheckBox extends Vue {
+export default class SubjectChoice extends Vue {
   @Prop({ type: Number })
   readonly order!: number
 
@@ -63,7 +63,7 @@ export default class ItemCheckBox extends Vue {
   @Prop({ type: Object })
   readonly value!: Que
 
-  private attrs = ['comment', 'required', 'visible', 'othersOpt', 'optsRange']
+  private attrs = ['required', 'visible', 'comment', 'othersOpt', 'optLayout']
 
   get que() {
     return this.value

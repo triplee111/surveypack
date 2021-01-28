@@ -37,7 +37,7 @@
               icon="radio_button_checked"
               color="primary"
               label="單選題"
-              @click="addQue('radiobox')")
+              @click="addQue('choice')")
               .subject-hint.q-pb-xs
                 QIcon(
                   color="grey-5"
@@ -57,7 +57,7 @@
               icon="check_box"
               color="primary"
               label="多選題"
-              @click="addQue('checkbox')")
+              @click="addQue('multianswer')")
               .subject-hint.q-pb-xs
                 QIcon(
                   color="grey-5"
@@ -275,12 +275,12 @@ import { Que } from '@/types'
 
 import CatchMixin from '@core/mixin/cacheMixin'
 
-const RadioBox = () => import('./item/ItemRadioBox.vue')
-const CheckBox = () => import('./item/ItemCheckBox.vue')
-const TextInput = () => import('./item/ItemTextInput.vue')
-const Textarea = () => import('./item/ItemTextarea.vue')
-const Quote = () => import('./item/ItemQuote.vue')
-const Divider = () => import('./item/ItemDivider.vue')
+const Choice = () => import('./subject/SubjectChoice.vue')
+const MultiAnswer = () => import('./subject/SubjectMultiAnswer.vue')
+const TextInput = () => import('./subject/SubjectTextInput.vue')
+const Textarea = () => import('./subject/SubjectTextarea.vue')
+const Quote = () => import('./subject/SubjectQuote.vue')
+const Divider = () => import('./subject/SubjectDivider.vue')
 
 @Component({
   model: {
@@ -289,8 +289,8 @@ const Divider = () => import('./item/ItemDivider.vue')
   components: {
     QSplitter,
     QCardActions,
-    RadioBox,
-    CheckBox,
+    Choice,
+    MultiAnswer,
     TextInput,
     Textarea,
     Quote,

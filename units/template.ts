@@ -23,9 +23,9 @@ const queBase: Que = Object.freeze({
   config: {}
 })
 
-const radiobox = Object.freeze({
+const choice = Object.freeze({
   ...queBase,
-  type: 'radio-box',
+  type: 'choice',
   config: {
     others: false,
     optsUi: 'radiobox',
@@ -43,9 +43,9 @@ const radiobox = Object.freeze({
   ]
 })
 
-const checkbox = Object.freeze({
+const multianswer = Object.freeze({
   ...queBase,
-  type: 'check-box',
+  type: 'multi-answer',
   config: {
     others: false
   },
@@ -83,8 +83,8 @@ const divider = Object.freeze({
 })
 
 export const QueTypes = {
-  radiobox,
-  checkbox,
+  choice,
+  multianswer,
   text,
   textarea,
   quote,

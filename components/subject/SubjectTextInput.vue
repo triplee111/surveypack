@@ -1,12 +1,12 @@
 <template lang="pug">
-  ItemContainer(
+  SubjectContainer(
     :que.sync="que"
     @cancel="$emit('cancel', order - 1)"
     @copy="$emit('copy', que)")
 
     template(#header="{ editState }")
       HeaderGroup(
-        icon="radio_button_checked"
+        icon="short_text"
         :no="no"
         :editState="editState"
         :required="que.required"
@@ -20,12 +20,14 @@
         :que.sync="que"
         :queAttrs="attrs")
 
-    template(#que-sub="{ editState }")
-      OptEditor(
-        :no="no"
-        :others.sync="que.config.others"
-        :opts.sync="que.opts"
-        :editState="editState")
+    template(#que-sub)
+      QInput(
+        style="max-width: 500px;"
+        :input-style="{ color: '#999' }"
+        value="單行文字"
+        readonly
+        outlined
+        dense)
 
 </template>
 
@@ -34,26 +36,24 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 
 import { Que } from '@/types'
 
-import ItemContainer from './ItemContainer'
+import SubjectContainer from './SubjectContainer'
 import AttrContainer from '@/components/feature/attrs/AttrContainer'
 
 import HeaderGroup from '@/components/feature/que/QueHeaderGroup.vue'
 import ContentInput from '@/components/feature/que/QueContentInput.vue'
-import OptEditor from '@/components/feature/que/QueOptEditor.vue'
 
 @Component({
   model: {
     event: 'update'
   },
   components: {
-    ItemContainer,
+    SubjectContainer,
     AttrContainer,
     HeaderGroup,
-    ContentInput,
-    OptEditor
+    ContentInput
   }
 })
-export default class ItemRadioBox extends Vue {
+export default class SubjectTextInput extends Vue {
   @Prop({ type: Number })
   readonly order!: number
 
@@ -63,7 +63,7 @@ export default class ItemRadioBox extends Vue {
   @Prop({ type: Object })
   readonly value!: Que
 
-  private attrs = ['required', 'visible', 'comment', 'othersOpt', 'optLayout']
+  private attrs = ['comment', 'required', 'visible']
 
   get que() {
     return this.value

@@ -1,12 +1,12 @@
 <template lang="pug">
-  ItemContainer(
+  SubjectContainer(
     :que.sync="que"
     @cancel="$emit('cancel', order - 1)"
     @copy="$emit('copy', que)")
 
     template(#header="{ editState }")
       HeaderGroup(
-        icon="short_text"
+        icon="notes"
         :no="no"
         :editState="editState"
         :required="que.required"
@@ -24,9 +24,9 @@
       QInput(
         style="max-width: 500px;"
         :input-style="{ color: '#999' }"
-        value="單行文字"
+        value="多行文字"
         readonly
-        outlined
+        filled
         dense)
 
 </template>
@@ -36,7 +36,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 
 import { Que } from '@/types'
 
-import ItemContainer from './ItemContainer'
+import SubjectContainer from './SubjectContainer'
 import AttrContainer from '@/components/feature/attrs/AttrContainer'
 
 import HeaderGroup from '@/components/feature/que/QueHeaderGroup.vue'
@@ -47,13 +47,13 @@ import ContentInput from '@/components/feature/que/QueContentInput.vue'
     event: 'update'
   },
   components: {
-    ItemContainer,
+    SubjectContainer,
     AttrContainer,
     HeaderGroup,
     ContentInput
   }
 })
-export default class ItemTextInput extends Vue {
+export default class SubjectTextarea extends Vue {
   @Prop({ type: Number })
   readonly order!: number
 
