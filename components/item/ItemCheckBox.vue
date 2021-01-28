@@ -7,7 +7,7 @@
     template(#header="{ editState }")
       HeaderGroup(
         icon="check_box"
-        :no="order"
+        :no="no"
         :editState="editState"
         :required="que.required"
         :visible="que.visible")
@@ -22,7 +22,7 @@
 
     template(#que-sub="{ editState }")
       OptEditor(
-        :no="order"
+        :no="no"
         :others.sync="que.config.others"
         :opts.sync="que.opts"
         :editState="editState")
@@ -56,6 +56,9 @@ import OptEditor from '@/components/feature/que/QueOptEditor.vue'
 export default class ItemCheckBox extends Vue {
   @Prop({ type: Number })
   readonly order!: number
+
+  @Prop({ type: Number })
+  readonly no!: number
 
   @Prop({ type: Object })
   readonly value!: Que

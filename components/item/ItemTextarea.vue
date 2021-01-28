@@ -7,7 +7,7 @@
     template(#header="{ editState }")
       HeaderGroup(
         icon="notes"
-        :no="order"
+        :no="no"
         :editState="editState"
         :required="que.required"
         :visible="que.visible")
@@ -56,6 +56,9 @@ import ContentInput from '@/components/feature/que/QueContentInput.vue'
 export default class ItemTextarea extends Vue {
   @Prop({ type: Number })
   readonly order!: number
+
+  @Prop({ type: Number })
+  readonly no!: number
 
   @Prop({ type: Object })
   readonly value!: Que

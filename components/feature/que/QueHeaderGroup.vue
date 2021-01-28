@@ -1,7 +1,10 @@
 <template lang="pug">
   .que-header-group.q-gutter-x-xs
     .que-header-icon.q-py-xs(:class="numberIconBgColor")
-      span.text-white {{ no }}
+      span.text-white(v-if="no") {{ no }}
+      span(
+        v-else
+        :class="numberIconTextColor") -1
 
     .que-header-icon(:class="otherIconBgColor")
       QIcon(:name="icon")
@@ -40,6 +43,10 @@ export default class QueHeaderGroup extends Vue {
 
   get numberIconBgColor() {
     return this.editState ? 'bg-success' : 'bg-green-4'
+  }
+
+  get numberIconTextColor() {
+    return this.editState ? 'text-success' : 'text-green-4'
   }
 
   get otherIconBgColor() {

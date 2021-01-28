@@ -7,7 +7,6 @@
     template(#header="{ editState }")
       HeaderGroup(
         icon="format_quote"
-        :no="order"
         :editState="editState")
 
     template(#default)

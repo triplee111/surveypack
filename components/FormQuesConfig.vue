@@ -13,10 +13,11 @@
               @start="grabToggle"
               @end="grabToggle")
               component(
-                v-for="(que, no) in ques"
-                v-model="ques[no]"
+                v-for="(que, index) in ques"
+                v-model="ques[index]"
                 :key="que.id"
-                :order="no + 1"
+                :no="getQueNo(index)"
+                :order="index + 1"
                 :is="getQueComp(que.type)"
                 @cancel="cancel"
                 @copy="cloneQue")
@@ -124,6 +125,7 @@
           span.text-body1 刪除題目
 
           QBtn.float-right(
+            color="grey-5"
             v-close-popup
             size="0.7rem"
             dense
@@ -132,7 +134,7 @@
 
         QCardSection.text-body2
           p 確認要刪除這個題目嗎？
-          p.text-primary(v-show="queToRemove.content") {{ queNoToRemove }}. {{ queToRemove.content }}
+          p.text-primary(v-show="queToRemove.content") {{ queToRemove.content }}
           p 這個動作在儲存問卷後是不能復原的唷？
 
         QCardActions.q-mt-sm.bg-white.text-teal(align="right")
@@ -156,7 +158,7 @@ import upperFirst from 'lodash/upperFirst'
 import camelCase from 'lodash/camelCase'
 import draggable from 'vuedraggable'
 
-import { Prop, Component } from 'vue-property-decorator'
+import { Prop, Component, Watch } from 'vue-property-decorator'
 import { QSplitter, QCardActions } from 'quasar'
 
 import { QueTypes } from '@/units/template'
@@ -194,7 +196,8 @@ export default class QuesConfig extends CatchMixin {
 
   private confirmState = false
   private queToRemove = {}
-  private queNoToRemove = 0
+  private queOrderToRemove = 0
+  private queLayoutIndex: number[] = [] // 存放排版項目 index，用於題號計算(排版項目無題號)
 
   private draggbleOpts = {
     group: 'ques',
@@ -212,6 +215,16 @@ export default class QuesConfig extends CatchMixin {
 
   get quesState(): Que[] {
     return this.$store.getters['survey/targetQues']
+  }
+
+  @Watch('ques', { immediate: true })
+  onQuesChanged(value: Que[]) {
+    this.queLayoutIndex = value.reduce((acc: number[], que, index) => {
+      if (que.type === 'divider' || que.type === 'quote') {
+        acc.push(index)
+      }
+      return acc
+    }, [])
   }
 
   private addQue(type: keyof typeof QueTypes) {
@@ -232,7 +245,7 @@ export default class QuesConfig extends CatchMixin {
 
   private cancel(index: number) {
     this.queToRemove = this.ques[index]
-    this.queNoToRemove = index + 1
+    this.queOrderToRemove = index + 1
 
     if (
       this.quesState[index] &&
@@ -250,10 +263,27 @@ export default class QuesConfig extends CatchMixin {
   }
 
   private removeQue() {
-    this.ques.splice(this.queNoToRemove - 1, 1)
+    this.ques.splice(this.queOrderToRemove - 1, 1)
 
     this.queToRemove = {}
-    this.queNoToRemove = 0
+    this.queOrderToRemove = 0
+  }
+
+  private getQueNo(index: number) {
+    if (this.queLayoutIndex.includes(index)) {
+      return -1
+    }
+
+    let no = index + 1
+
+    for (let i of this.queLayoutIndex) {
+      if (i > index) {
+        break
+      }
+      no -= 1
+    }
+
+    return no
   }
 
   private getQueComp(queType: string) {
