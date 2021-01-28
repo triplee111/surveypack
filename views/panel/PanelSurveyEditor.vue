@@ -1,6 +1,7 @@
 <template lang="pug">
   .col
     FormContainer(
+      ref="surveyFormContainer"
       :stepper="stepper"
       :linear="false")
       template(v-slot:form-card-header)
@@ -54,7 +55,7 @@
           size="md"
           color="primary"
           label="儲存問卷"
-          @click.prevent="setter(save)")
+          @click.prevent="setter(step)")
 
     BaseCard
       template(v-slot:card-header)
@@ -76,6 +77,7 @@ import { SurveyInfo, Que } from '@/types'
 import InfoConfig from '@/components/FormInfoConfig.vue'
 import QuesConfig from '@/components/FormQuesConfig.vue'
 
+import { normal } from '@src/utils/notify/notify-quasar'
 import CatchMixin from '@core/mixin/cacheMixin'
 import FormContainer from '@m/form'
 
@@ -87,6 +89,14 @@ import FormContainer from '@m/form'
   }
 })
 export default class PanelSurveyEditor extends CatchMixin {
+  $refs!: { surveyFormContainer: FormContainer }
+
+  @Prop({ type: String })
+  readonly id!: string // survey id
+
+  @Prop({ type: String })
+  readonly step!: string
+
   @Prop({ type: String })
   readonly parentView!: string
 
@@ -103,7 +113,7 @@ export default class PanelSurveyEditor extends CatchMixin {
   }
 
   get mode() {
-    return this.$route.params.id === 'add' ? 'add' : 'edit'
+    return this.id === 'add' ? 'add' : 'edit'
   }
 
   get stepper() {
@@ -153,15 +163,19 @@ export default class PanelSurveyEditor extends CatchMixin {
         }
       })
     } else {
-      this.$store
-        .dispatch('survey/read', parseInt(this.$route.params.id))
-        .then(() => {
-          this.config = {
-            ...this.configState,
-            dateRange: [...this.configState.dateRange]
-          }
-          this.ques = JSON.parse(JSON.stringify(this.quesState))
-        })
+      this.$store.dispatch('survey/read', parseInt(this.id)).then(() => {
+        this.config = {
+          ...this.configState,
+          dateRange: [...this.configState.dateRange]
+        }
+        this.ques = JSON.parse(JSON.stringify(this.quesState))
+      })
+    }
+  }
+
+  mounted() {
+    if (this.step === '2') {
+      this.$refs.surveyFormContainer.setStep(parseInt(this.step))
     }
   }
 
@@ -172,20 +186,24 @@ export default class PanelSurveyEditor extends CatchMixin {
   //   })
   // }
 
-  private async setter(): Promise<void> {
+  private async setter(step: number): Promise<void> {
     const currentRoute = this.$route.fullPath
-    let sid = this.$route.params.id
+    let sid = this.id
 
     if (this.mode === 'add') {
       sid = await this.$store.dispatch('survey/create', {
         info: this.config,
         ques: this.ques
       })
+
+      normal('問卷已新增')
     } else {
       await this.$store.dispatch('survey/update', {
         info: this.config,
         ques: this.ques
       })
+
+      normal('問卷完成更新')
     }
 
     this.$store.dispatch('cached/clearCache', this.parentView)
@@ -194,9 +212,9 @@ export default class PanelSurveyEditor extends CatchMixin {
     await this.$store.dispatch('cached/clearCache', currentRoute)
 
     this.$router.push({
-      path: `/panel/config-survey/${sid}`,
+      path: `/panel/config-survey/${sid}/${step}`,
       query: {
-        title: this.truncateStr((this.config as SurveyInfo).name, 8)
+        title: (this.config as SurveyInfo).name
       }
     })
   }
@@ -207,13 +225,6 @@ export default class PanelSurveyEditor extends CatchMixin {
     const target = document.querySelector('div.card')
     // @ts-expect-error
     this.$q.fullscreen.toggle(target)
-  }
-
-  private truncateStr(str: string, num: number) {
-    if (str.length <= num) {
-      return str
-    }
-    return str.slice(0, num) + '..'
   }
 }
 </script>

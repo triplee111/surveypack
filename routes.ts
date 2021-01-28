@@ -1,6 +1,8 @@
 import Layout from '@t/layouts/LayoutMain.vue' // layouts base
 import Wrapper from '@t/layouts/wrapper' // content wrapper
 
+import { Route } from 'vue-router'
+
 export default [
   {
     path: '/',
@@ -40,11 +42,13 @@ export default [
         component: Wrapper,
         children: [
           {
-            path: 'config-survey/:id',
+            path: 'config-survey/:id/:step',
             name: 'ConfigSurvey',
-            props: {
+            props: (route: Route) => ({
+              id: route.params.id,
+              step: route.params.step,
               parentView: '/survey/list'
-            },
+            }),
             component: () =>
               import(
                 /* webpackChunkName: "config-group" */ '@/views/panel/PanelSurveyEditor.vue'
