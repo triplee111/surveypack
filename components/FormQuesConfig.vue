@@ -26,73 +26,181 @@
             span.text-body1.text-grey-5 點選右方的題型，開始設計你的問卷！
 
       template(#after)
-        .row.q-ml-lg.q-gutter-y-md(v-once)
-          .col-12.text-grey-7.q-pt-lg
+        .row.q-ml-lg.q-gutter-y-sm(v-once)
+          .col-12.text-grey-7
             span 選項題型
           .col-6
-            QBtn.full-width(
+            QBtn.full-width.subject-selector(
+              align="left"
+              size="0.8rem"
               outline
               icon="radio_button_checked"
               color="primary"
               label="單選題"
               @click="addQue('radiobox')")
+              .subject-hint.q-pb-xs
+                QIcon(
+                  color="grey-5"
+                  size="1rem"
+                  name="help")
+                  QTooltip(
+                    anchor="top middle"
+                    self="center middle"
+                    content-class="bg-grey-9")
+                    | 填答者僅能選擇一個選項
+
           .col-6
-            QBtn.full-width(
+            QBtn.full-width.subject-selector(
+              align="left"
+              size="0.8rem"
               outline
               icon="check_box"
               color="primary"
               label="多選題"
               @click="addQue('checkbox')")
+              .subject-hint.q-pb-xs
+                QIcon(
+                  color="grey-5"
+                  size="1rem"
+                  name="help")
+                  QTooltip(
+                    anchor="top middle"
+                    self="center middle"
+                    content-class="bg-grey-9")
+                    | 填答者可以選擇一至多個選項
           .col-6
-            QBtn.full-width(
+            QBtn.full-width.subject-selector(
+              align="left"
+              size="0.8rem"
               outline
               icon="grid_on"
               color="primary"
               disable
               label="矩陣題")
+              .subject-hint.q-pb-xs
+                QIcon(
+                  color="grey-5"
+                  size="1rem"
+                  name="help")
+                  QTooltip(
+                    anchor="top middle"
+                    self="center middle"
+                    content-class="bg-grey-9")
+                    | 以相同基準選項詢問多個題目
+                    br
+                    | 例如滿意度評分
 
           .col-12.text-grey-7.q-pt-sm
             span 輸入題型
           .col-6
-            QBtn.full-width(
+            QBtn.full-width.subject-selector(
+              align="left"
+              size="0.8rem"
               outline
               icon="short_text"
               color="primary"
               label="單行文字"
               @click="addQue('text')")
+              .subject-hint.q-pb-xs
+                QIcon(
+                  color="grey-5"
+                  size="1rem"
+                  name="help")
+                  QTooltip(
+                    anchor="top middle"
+                    self="center middle"
+                    content-class="bg-grey-9")
+                    | 讓使用者輸入單行純文字
+                    br
+                    | 適用於資訊蒐集與簡答
+
           .col-6
-            QBtn.full-width(
+            QBtn.full-width.subject-selector(
+              align="left"
+              size="0.8rem"
               outline
               icon="notes"
               color="primary"
               label="多行文字"
               @click="addQue('textarea')")
+              .subject-hint.q-pb-xs
+                QIcon(
+                  color="grey-5"
+                  size="1rem"
+                  name="help")
+                  QTooltip(
+                    anchor="top middle"
+                    self="center middle"
+                    content-class="bg-grey-9")
+                    | 讓使用者建立可換行純文字
+                    br
+                    | 適用於詳答
+
           .col-6
-            QBtn.full-width(
+            QBtn.full-width.subject-selector(
+              align="left"
+              size="0.8rem"
               outline
               icon="fa fa-sliders"
               color="primary"
               disable
               label="數字滑桿")
+              .subject-hint.q-pb-xs
+                QIcon(
+                  color="grey-5"
+                  size="1rem"
+                  name="help")
+                  QTooltip(
+                    anchor="top middle"
+                    self="center middle"
+                    content-class="bg-grey-9")
+                    | 設定數字區間讓填答者拖曳滑桿選取
 
           .col-12.text-grey-7.q-pt-sm
             span 排版項目
           .col-6
-            QBtn.full-width(
+            QBtn.full-width.subject-selector(
+              align="left"
+              size="0.8rem"
               outline
               icon="format_quote"
               color="primary"
               label="引言區塊"
               @click="addQue('quote')")
+              .subject-hint.q-pb-xs
+                QIcon(
+                  color="grey-5"
+                  size="1rem"
+                  name="help")
+                  QTooltip(
+                    anchor="top middle"
+                    self="center middle"
+                    content-class="bg-grey-9")
+                    | 可用於美化版面或設定段落資訊
+                    br
+                    | 引導使用者填寫問卷
+
           .col-6
-            QBtn.full-width(
+            QBtn.full-width.subject-selector(
+              align="left"
+              size="0.8rem"
               outline
               icon="more_horiz"
               color="primary"
               label="分隔線/分頁"
               @click="addQue('divider')")
+              .subject-hint.q-pb-xs
+                QIcon(
+                  color="grey-5"
+                  size="1rem"
+                  name="help")
+                  QTooltip(
+                    anchor="top middle"
+                    self="center middle"
+                    content-class="bg-grey-9")
+                    | 產生分隔間距或分頁選項
 
-          .col-12
+          .col-12.q-mt-lg
             QBtn(
               no-shadow
               dense
@@ -159,7 +267,7 @@ import camelCase from 'lodash/camelCase'
 import draggable from 'vuedraggable'
 
 import { Prop, Component, Watch } from 'vue-property-decorator'
-import { QSplitter, QCardActions } from 'quasar'
+import { QSplitter, QCardActions, QTooltip } from 'quasar'
 
 import { QueTypes } from '@/units/template'
 
@@ -187,6 +295,7 @@ const Divider = () => import('./item/ItemDivider.vue')
     Textarea,
     Quote,
     Divider,
+    QTooltip,
     draggable
   }
 })
@@ -327,4 +436,15 @@ body.cursor-grabbing
     aside.que-drag
     i.que-drag
       cursor grabbing
+
+.subject-selector
+  cursor grabbing
+  .subject-hint
+    display none
+    flex inherit
+    text-align right
+
+  &:hover
+    .subject-hint
+      display block
 </style>
