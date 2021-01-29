@@ -47,7 +47,11 @@ const multianswer = Object.freeze({
   ...queBase,
   type: 'multi-answer',
   config: {
-    others: false
+    others: false,
+    optsColumn: {
+      desktop: 2,
+      mobile: 1
+    }
   },
   opts: [
     {

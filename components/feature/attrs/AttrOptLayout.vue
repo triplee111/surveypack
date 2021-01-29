@@ -14,18 +14,19 @@
         QCardSection.bg-teal.text-white
           .text-body1 選項顯示方式
 
-        QCardSection.q-pa-xs.q-mb-sm
-          .text-body2.q-gutter-x-sm
-            QRadio(
-              v-model="ui"
-              val="radiobox"
-              label="一般模式")
-            QRadio(
-              v-model="ui"
-              val="menu"
-              label="下拉式選單")
+        template(v-if="queModel.config.optsUi === 'radiobox' || queModel.config.optsUi === 'menu'")
+          QCardSection.q-pa-xs.q-mb-sm
+            .text-body2.q-gutter-x-sm
+              QRadio(
+                v-model="ui"
+                val="radiobox"
+                label="一般模式")
+              QRadio(
+                v-model="ui"
+                val="menu"
+                label="下拉式選單")
 
-        QSeparator.q-mx-sm
+          QSeparator.q-mx-sm
 
         QCardSection(v-show="ui === 'menu'")
           .col-12.text-center(style="line-height: 2")
@@ -110,7 +111,7 @@ export default class AttrOptLayout extends Vue {
   readonly queModel!: Que
 
   private showEditor = false
-  private ui = 'radiobox'
+  private ui: 'radiobox' | 'menu' = 'radiobox'
   private columns = {
     desktop: 2,
     mobile: 1
@@ -142,12 +143,18 @@ export default class AttrOptLayout extends Vue {
 
   private confirm() {
     let config = {
-      ...this.queModel.config,
-      optsUi: this.ui
+      ...this.queModel.config
     }
 
-    if (this.ui === 'menu' && this.queModel.config?.optsUi === 'radiobox') {
-      delete config.optsColumn
+    if (this.queModel.config?.optsUi) {
+      config = {
+        ...config,
+        optsUi: this.ui
+      }
+
+      if (this.ui === 'menu' && config?.optsColumn) {
+        delete config.optsColumn
+      }
     }
 
     if (this.ui === 'radiobox') {
