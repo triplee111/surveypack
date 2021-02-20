@@ -16,7 +16,7 @@
           color="orange-4"
           label-always
           markers
-          :min="1"
+          :min="0"
           :max="optNums"
           @change="changeRange")
 
@@ -51,7 +51,7 @@ export default class AttrOptsRange extends Vue {
   private state = false
 
   private range = {
-    min: 1,
+    min: 0,
     max: 1
   }
 
@@ -61,16 +61,16 @@ export default class AttrOptsRange extends Vue {
   }
 
   get optsRange() {
-    return (
-      this.queModel.config!.optsRange || {
-        min: 1,
-        max: 1
-      }
-    )
+    return this.queModel.config?.rules && this.queModel.config.rules.optsRange
+      ? this.queModel.config.rules.optsRange
+      : {
+          min: 0,
+          max: 1
+        }
   }
 
   get hasRange() {
-    return !!this.queModel.config!.optsRange
+    return this.queModel.config?.rules && this.queModel.config.rules.optsRange
   }
 
   mounted() {
@@ -98,7 +98,7 @@ export default class AttrOptsRange extends Vue {
       this.changeRange()
     } else {
       const config = { ...this.queModel.config }
-      delete config.optsRange
+      delete config.rules?.optsRange
 
       this.range = {
         max: 1,
@@ -113,9 +113,16 @@ export default class AttrOptsRange extends Vue {
   }
 
   private changeRange() {
+    const rules = this.queModel.config?.rules
+      ? {
+          ...this.queModel.config.rules,
+          optsRange: this.range
+        }
+      : { optsRange: this.range }
+
     const config = {
       ...this.queModel.config,
-      optsRange: this.range
+      rules
     }
 
     this.$emit('update:queModel', {
