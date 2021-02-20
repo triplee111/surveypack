@@ -3,9 +3,9 @@ import { cnFormat } from '@src/utils/filter/numberFormat'
 export const listModel = {
   headers: [
     '名稱',
-    '顯示標題',
-    '開始時間',
-    '結束時間',
+    '標題',
+    '題號',
+    '進行區間',
     '問卷狀態',
     '資格限制',
     '新增/修改時間',
@@ -29,10 +29,18 @@ export const listModel = {
     },
     {
       name: 'title',
-      label: '顯示標題',
+      label: '標題',
       field: 'title',
       required: true,
       align: 'left',
+      sortable: true
+    },
+    {
+      name: 'isShowNo',
+      label: '題號',
+      field: 'isShowNo',
+      align: 'left',
+      format: (val: number) => (val ? '顯示題號' : '隱藏題號'),
       sortable: true
     },
     {

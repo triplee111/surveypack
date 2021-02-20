@@ -34,6 +34,18 @@
 
         .row.col-xs-12
           .col-md-2.q-pt-md
+            span.body-text2.text-blue-grey.text-weight-bold 題號顯示
+          .col-md-10
+            QToggle(
+              v-model="form.isShowNo"
+              :label="form.isShowNo ? '顯示' : '不顯示'"
+              size="lg"
+              checked-icon="check"
+              color="success"
+              unchecked-icon="clear")
+
+        .row.col-xs-12
+          .col-md-2.q-pt-md
             span.body-text2.text-blue-grey.text-weight-bold 回收數量上限
           .col-md-10.q-gutter-x-sm
             QToggle.q-mb-xs(

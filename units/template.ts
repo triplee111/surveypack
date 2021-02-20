@@ -5,6 +5,7 @@ export const survey: Survey = {
   name: '新問卷活動',
   active: true,
   dateRange: [],
+  isShowNo: true,
   limited: 0,
   restrict: false,
   title: '無標題問卷',
