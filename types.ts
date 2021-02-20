@@ -1,15 +1,18 @@
 interface QueConfig {
   others?: boolean
-  optsRange?: {
-    min: number
-    max: number
-  }
-  quote?: string
   optsUi?: 'radiobox' | 'menu'
   optsColumn?: {
     desktop: number
     mobile: number
   } // 每列個數
+  quote?: string // 引言內容
+  rules?: {
+    optsRange?: {
+      min: number
+      max: number
+    }
+    format?: string
+  } // 額外驗證規則
 }
 
 export interface QueOpt {
@@ -35,6 +38,7 @@ export interface SurveyConfig {
   name: string
   active: boolean
   dateRange: string[]
+  isShowNo: boolean
   limited: number
   restrict: boolean
   title: string
