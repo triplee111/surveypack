@@ -66,9 +66,7 @@ export const listModel = {
       name: 'restrict',
       label: '資格限制',
       field: 'restrict',
-      align: 'left',
-      format: (val: number) => (val ? '限制名單' : '不限'),
-      sortable: true
+      align: 'left'
     },
     {
       name: 'timestamp',

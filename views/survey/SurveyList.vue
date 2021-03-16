@@ -27,6 +27,16 @@
         :data="gridData"
         :paginateConfig="{ descending: true }")
 
+        template(v-slot:col-restrict="{ row }")
+          QBtn(
+            v-if="row.restrict"
+            size="sm"
+            unelevated
+            color="success"
+            label="可參與名單"
+            @click="viewInvited(row.id, row.name)")
+          span(v-else) 不限
+
         template(v-slot:col-action="{ row }")
           QBtn(
             flat
@@ -99,7 +109,7 @@
                       size="xs"
                       left
                       name="delete")
-                  QItemSection 刪除
+                  QItemSection 刪除問卷
 
       QDialog(
         v-model="cancelConfirm"
@@ -204,7 +214,7 @@ import { GridList } from '@src/types'
 import service from '@/service/serviceContainer'
 
 import CatchMixin from '@core/mixin/cacheMixin'
-import GridContainer from '@m/grid/index.tsx'
+import GridContainer from '@m/grid/index'
 import ExcelExportContainer from '@m/excel/export'
 
 import Quasartable from '@c/datatable/Quasartable.vue'
@@ -315,6 +325,16 @@ export default class SurveyList extends CatchMixin {
     return this.$store.state.view.queuedList.some(
       (view: any) => view.path === `/panel/config-survey/${sid}`
     )
+  }
+
+  private viewInvited(id: string, name: string): void {
+    this.$router.push({
+      path: `/panel/invited/${id}`,
+      query: {
+        name,
+        title: `${name} 可參與列表`
+      }
+    })
   }
 }
 </script>
