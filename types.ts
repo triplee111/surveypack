@@ -41,6 +41,7 @@ export interface SurveyConfig {
   isShowNo: boolean
   limited: number
   restrict: boolean
+  restrictList: Array<{ account: string }>
   title: string
   intro: string
   confirm: string

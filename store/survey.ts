@@ -24,10 +24,12 @@ const getters: GetterTree<SurveyState, RootState> = {
       isShowNo,
       limited,
       restrict,
+      restrictList,
       title,
       confirm,
       intro
     } = state.target
+
     return {
       id,
       name,
@@ -36,6 +38,7 @@ const getters: GetterTree<SurveyState, RootState> = {
       isShowNo,
       limited,
       restrict,
+      restrictList,
       title,
       confirm,
       intro

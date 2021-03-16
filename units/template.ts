@@ -8,6 +8,7 @@ export const survey: Survey = {
   isShowNo: true,
   limited: 0,
   restrict: false,
+  restrictList: [],
   title: '無標題問卷',
   intro: '',
   confirm: '',
