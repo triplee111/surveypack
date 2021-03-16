@@ -59,6 +59,32 @@ export default [
               icon: 'icon-settings',
               confirm: process.env.NODE_ENV === 'production'
             }
+          },
+          {
+            path: 'invited/:id',
+            name: 'Invited',
+            component: () =>
+              import(
+                /* webpackChunkName: "list-group" */ '@/views/panel/PanelInvitedList.vue'
+              ),
+            meta: {
+              roles: ['super'],
+              title: '可參加列表',
+              icon: 'icon-list'
+            }
+          },
+          {
+            path: 'invited-upload/:id',
+            name: 'ListUpload',
+            component: () =>
+              import(
+                /* webpackChunkName: "config-group" */ '@/views/panel/PanelInvitedListImport.vue'
+              ),
+            meta: {
+              roles: ['super'],
+              title: '名單上傳',
+              icon: 'icon-cloud-upload'
+            }
           }
         ]
       }
