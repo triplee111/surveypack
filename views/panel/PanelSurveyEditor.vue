@@ -20,7 +20,10 @@
 
       //- step1
       template(v-slot:form-step-1="{ id }")
-        InfoConfig(v-model="config")
+        InfoConfig(
+          v-model="config"
+          :mode="mode"
+          @invited="viewInvited")
 
       //- step2
       template(v-slot:form-step-2="{ id }")
@@ -63,6 +66,8 @@
         | &nbsp;&nbsp;功能說明
 
       ul.q-gutter-sm.q-px-lg
+        li 若開啟參與名單設定，但沒有上傳可參與的名單，儲存時系統會自動關閉此選項
+        li 關閉參與名單設定不會刪除已上傳的名單，若名單有變動請至可參與列表進行更新
         li 新增的問題在沒有按下「完成」之前，按「取消」相等於刪除問題
         li 問卷題目較多的時候，建議開啟右上角的全螢幕模式
         li 排版項目不帶題號
@@ -72,7 +77,7 @@
 <script lang="ts">
 import { Component, Prop } from 'vue-property-decorator'
 
-import { SurveyInfo, Que } from '@/types'
+import { SurveyInfo, Que, SurveyConfig } from '@/types'
 
 import InfoConfig from '@/components/FormInfoConfig.vue'
 import QuesConfig from '@/components/FormQuesConfig.vue'
@@ -215,6 +220,16 @@ export default class PanelSurveyEditor extends CatchMixin {
       path: `/panel/config-survey/${sid}/${step}`,
       query: {
         title: (this.config as SurveyInfo).name
+      }
+    })
+  }
+
+  private viewInvited(): void {
+    this.$router.push({
+      path: `/panel/invited/${this.id}`,
+      query: {
+        name: (this.config as SurveyConfig).name,
+        title: `${(this.config as SurveyConfig).name} 可參與列表`
       }
     })
   }

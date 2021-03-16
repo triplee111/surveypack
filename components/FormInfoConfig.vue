@@ -68,20 +68,31 @@
         .row.q-mb-md.col-xs-12
           .col-md-2.q-pt-md
             span.body-text2.text-blue-grey.text-weight-bold 參與名單設定
-            QChip(
-              icon="star"
-              size="sm"
-              color="primary"
-              text-color="white")
-              span 專業版功能
+
           .col-md-10
             QToggle(
               v-model="form.restrict"
               size="lg"
               checked-icon="check"
               color="success"
-              disable
-              unchecked-icon="clear")
+              unchecked-icon="clear"
+              @input="resetRestrictList")
+
+            span(v-show="form.restrict")
+              template(v-if="mode === 'add'")
+                span 上傳 {{ form.restrictList ? form.restrictList.length : 0 }} 位
+                .row.q-mt-sm()
+                  InvitedListImport(:list.sync="form.restrictList")
+
+              template(v-else)
+                QBtn(
+                  unelevated
+                  outline
+                  icon="list"
+                  size="sm"
+                  color="success"
+                  label="可參與列表"
+                  @click="$emit('invited')")
 
         QSeparator.q-mb-lg
 
@@ -119,9 +130,9 @@ import { Prop, Watch, Component } from 'vue-property-decorator'
 import { QSeparator, QChip } from 'quasar'
 
 import { SurveyConfig } from '@/types'
+import InvitedListImport from './invited/InvitedListImport.vue'
 
 import QuasarEditor from '@c/editor/QuasarEditor.vue'
-
 import CatchMixin from '@core/mixin/cacheMixin'
 import Datetimepicker from '@c/datepicker/Flatpickr.vue'
 
@@ -133,10 +144,14 @@ import Datetimepicker from '@c/datepicker/Flatpickr.vue'
     QSeparator,
     Datetimepicker,
     QuasarEditor,
-    QChip
+    QChip,
+    InvitedListImport
   }
 })
 export default class InfoConfig extends CatchMixin {
+  @Prop({ type: String })
+  readonly mode!: string
+
   @Prop()
   readonly value!: SurveyConfig
 
@@ -169,6 +184,12 @@ export default class InfoConfig extends CatchMixin {
   @Watch('isLimited')
   onIsLimitedEnable(bool: boolean) {
     this.form.limited = bool ? 0 : -1
+  }
+
+  private resetRestrictList(value: boolean) {
+    if (!value) {
+      this.form.restrictList = []
+    }
   }
 
   private isInteger(n: number | string) {
