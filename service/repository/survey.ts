@@ -37,9 +37,19 @@ class SurveyService {
   }
 
   delSurvey(sid: number) {
-    return this.$http.delete(`sv/s/id/${sid}`, {
-      id: sid
+    return this.$http.delete(`sv/s/id/${sid}`)
+  }
+
+  delQualifyUser(sid: number, account: string) {
+    return this.$http.delete(`sv/q/id/${sid}`, {
+      data: {
+        account
+      }
     })
+  }
+
+  clearQualifyList(sid: number) {
+    return this.$http.delete(`sv/q/id/${sid}`)
   }
 
   getQues(sid: number) {

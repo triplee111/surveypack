@@ -9,8 +9,8 @@
         demoFileName="InvitedListDemo"
         :demoModel="importModel"
         :demoData="demoData"
-        :verifyUrl="`${verifyUrl}/${$route.params.id}`"
-        :sendUrl="`${sendUrl}/${$route.params.id}`")
+        :verifyUrl="verifyUrl"
+        :sendUrl="sendUrl")
 
         //- Datatable
         template(v-slot:datatable="{ id, sheetData, sheetModel }")
@@ -62,7 +62,7 @@ export default class PanelInvitedListImport extends CatchMixin {
     }
   ]
 
-  private verifyUrl = ''
-  private sendUrl = 'sv/q/'
+  private verifyUrl = `ub/ubsurvey/ajaxVerifyExcel/${this.$route.params.id}`
+  private sendUrl = `sv/q/id/${this.$route.params.id}`
 }
 </script>

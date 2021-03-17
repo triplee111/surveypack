@@ -80,7 +80,8 @@
 
             span(v-show="form.restrict")
               template(v-if="mode === 'add'")
-                span 上傳 {{ form.restrictList ? form.restrictList.length : 0 }} 位
+                span(v-if="form.restrictList && form.restrictList.length")
+                  | 已上傳 {{ form.restrictList.length }} 位
                 .row.q-mt-sm()
                   InvitedListImport(:list.sync="form.restrictList")
 
