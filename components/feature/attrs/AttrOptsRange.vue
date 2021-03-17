@@ -70,7 +70,9 @@ export default class AttrOptsRange extends Vue {
   }
 
   get hasRange() {
-    return this.queModel.config?.rules && this.queModel.config.rules.optsRange
+    return !!(
+      this.queModel.config?.rules && this.queModel.config.rules.optsRange
+    )
   }
 
   mounted() {
