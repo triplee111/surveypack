@@ -35,7 +35,7 @@
             color="success"
             label="可參與名單"
             @click="viewInvited(row.id, row.name)")
-          span(v-else) 不限
+          span(v-else) 會員皆可參與
 
         template(v-slot:col-action="{ row }")
           QBtn(

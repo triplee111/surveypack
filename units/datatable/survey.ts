@@ -4,9 +4,9 @@ export const listModel = {
   headers: [
     '名稱',
     '標題',
-    '題號',
     '開放時間',
     '問卷狀態',
+    '回收數量',
     '資格限制',
     '新增/修改時間',
     '編輯人員'
@@ -36,14 +36,6 @@ export const listModel = {
       sortable: true
     },
     {
-      name: 'isShowNo',
-      label: '題號',
-      field: 'isShowNo',
-      align: 'left',
-      format: (val: number) => (val ? '顯示' : '隱藏'),
-      sortable: true
-    },
-    {
       name: 'dateRange',
       label: '開放時間',
       field: 'dateRange',
@@ -60,6 +52,14 @@ export const listModel = {
       field: 'active',
       align: 'left',
       format: (val: number) => (val ? '可填寫' : '維謢中'),
+      sortable: true
+    },
+    {
+      name: 'limited',
+      label: '回收數量',
+      field: 'limited',
+      align: 'left',
+      format: (val: number) => val || '無上限',
       sortable: true
     },
     {
