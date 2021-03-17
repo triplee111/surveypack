@@ -5,7 +5,7 @@ export const listModel = {
     '名稱',
     '標題',
     '題號',
-    '進行區間',
+    '開放時間',
     '問卷狀態',
     '資格限制',
     '新增/修改時間',
@@ -40,18 +40,18 @@ export const listModel = {
       label: '題號',
       field: 'isShowNo',
       align: 'left',
-      format: (val: number) => (val ? '顯示題號' : '隱藏題號'),
+      format: (val: number) => (val ? '顯示' : '隱藏'),
       sortable: true
     },
     {
       name: 'dateRange',
-      label: '進行區間',
+      label: '開放時間',
       field: 'dateRange',
       align: 'left',
       format: (range: string[]) =>
         range[0] && range[1]
           ? `${range[0].substring(0, 16)} 至 ${range[1].substring(0, 16)}`
-          : '時間不限',
+          : '永久',
       sortable: true
     },
     {
