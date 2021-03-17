@@ -62,7 +62,7 @@ export default class PanelInvitedListImport extends CatchMixin {
     }
   ]
 
-  private verifyUrl = `ub/ubsurvey/ajaxVerifyExcel/${this.$route.params.id}`
+  private verifyUrl = `${process.env.PROJ_PLATFORM}/surveypack/ajaxVerifyExcel/${this.$route.params.id}`
   private sendUrl = `sv/q/id/${this.$route.params.id}`
 }
 </script>
