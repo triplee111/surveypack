@@ -3,7 +3,6 @@
     QSplitter(
       :value="70"
       :style="editorHeight()")
-
       template(#before)
         QForm(ref="survey-edit-step2")
           template(v-if="ques.length")
@@ -121,6 +120,7 @@
               outline
               icon="notes"
               color="primary"
+              disable
               label="多行文字"
               @click="addQue('textarea')")
               .subject-hint.q-pb-xs
