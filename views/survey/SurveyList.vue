@@ -86,6 +86,18 @@
                 //-   QItemSection 複製
 
                 QItem(
+                    clickable
+                    @click="editCopy(row.id, row.name)")
+                    QItemSection(
+                      avatar
+                      style="min-width: 10px; padding-right: 5px;")
+                      QIcon(
+                        size="xs"
+                        left
+                        name="edit")
+                    QItemSection 編輯文案
+
+                QItem(
                   v-if="isInQueued(row.id)"
                   clickable
                   disable
@@ -333,6 +345,16 @@ export default class SurveyList extends CatchMixin {
       query: {
         name,
         title: `${name} 可參與列表`
+      }
+    })
+  }
+
+  private editCopy(id: string, name: string) {
+    this.$router.push({
+      path: `/panel/editor/${id}`,
+      query: {
+        name,
+        title: `${name} 活動文案`
       }
     })
   }

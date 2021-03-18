@@ -31,8 +31,17 @@ class SurveyService {
     return this.$http.put(`sv/s/id/${info.id}`, {
       info,
       ques,
-      admin,
-      platform: process.env.PROJ_PLATFORM
+      admin
+    })
+  }
+
+  getCopy(sid: string) {
+    return this.$http.get(`sv/c/id/${sid}`)
+  }
+
+  setCopy(sid: string, content: string) {
+    return this.$http.put(`sv/c/id/${sid}`, {
+      content
     })
   }
 

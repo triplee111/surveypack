@@ -85,6 +85,19 @@ export default [
               title: '名單上傳',
               icon: 'icon-cloud-upload'
             }
+          },
+          {
+            path: 'editor/:id',
+            name: 'Editor',
+            component: () =>
+              import(
+                /* webpackChunkName: "config-group" */ '@/views/panel/PanelTextEditor.vue'
+              ),
+            meta: {
+              roles: ['super'],
+              title: '文案編輯',
+              icon: 'icon-pencil'
+            }
           }
         ]
       }
