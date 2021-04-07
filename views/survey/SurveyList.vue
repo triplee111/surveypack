@@ -327,8 +327,8 @@ export default class SurveyList extends CatchMixin {
   private async getToken(sid: number) {
     const token = await service.$survey.getToken(sid)
 
-    this.getApi = `${window.location.protocol}//${window.location.host}/fsv/s/t/${token}/p/${process.env.PROJ_PLATFORM}`
-    this.postApi = `${window.location.protocol}//${window.location.host}/fsv/r/t/${token}/p/${process.env.PROJ_PLATFORM}`
+    this.getApi = `${window.location.protocol}//${window.location.host}/fsv/s/p/${process.env.PROJ_PLATFORM}/t/${token}`
+    this.postApi = `${window.location.protocol}//${window.location.host}/fsv/r/p/${process.env.PROJ_PLATFORM}/t/${token}`
 
     this.hasToken = true
   }
