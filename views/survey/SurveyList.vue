@@ -37,6 +37,16 @@
             @click="viewInvited(row.id, row.name)")
           span(v-else) 會員皆可參與
 
+        template(v-slot:col-records="{ row }")
+          QBtn(
+            v-if="row.records"
+            size="sm"
+            unelevated
+            color="primary"
+            :label="`${row.records} 回覆`"
+            @click="viewRecords(row.id, row.name)")
+          span(v-else) 0
+
         template(v-slot:col-action="{ row }")
           QBtn(
             flat
@@ -345,6 +355,16 @@ export default class SurveyList extends CatchMixin {
       query: {
         name,
         title: `${name} 可參與列表`
+      }
+    })
+  }
+
+  private viewRecords(id: string, name: string): void {
+    this.$router.push({
+      path: `/panel/records/${id}`,
+      query: {
+        name,
+        title: `${name} 回覆記錄`
       }
     })
   }

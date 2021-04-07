@@ -6,7 +6,8 @@ export const listModel = {
     '標題',
     '開放時間',
     '問卷狀態',
-    '回收數量',
+    '回收上限',
+    '已回收數量',
     '資格限制',
     '新增/修改時間',
     '編輯人員'
@@ -56,10 +57,17 @@ export const listModel = {
     },
     {
       name: 'limited',
-      label: '回收數量',
+      label: '回收上限',
       field: 'limited',
       align: 'left',
       format: (val: number) => val || '無上限',
+      sortable: true
+    },
+    {
+      name: 'records',
+      label: '已回收數量',
+      field: 'records',
+      align: 'left',
       sortable: true
     },
     {
