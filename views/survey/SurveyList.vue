@@ -170,7 +170,7 @@
         .q-gutter-x-md
           span 取得問卷:
           QInput.inline(
-            style="min-width: 300px;"
+            style="min-width: 400px;"
             readonly
             dense
             outlined
@@ -179,13 +179,13 @@
         .q-gutter-x-md
           span 送出問卷:
           QInput.inline(
-            style="min-width: 300px;"
+            style="min-width: 400px;"
             readonly
             dense
             outlined
             :value="postApi")
 
-        .text-center 問卷接口提供給前端開發進行串接
+        .text-center 問卷資料接口請提供給問卷前後端開發者進行串接
 
       QCardActions.bg-white.text-teal(align="right")
         QBtn(
