@@ -8,7 +8,7 @@
   "compilerOptions": {
     "paths": {
       "@/*": [
-        "src/app/ub/surveypack/*"
+        "src/app/dbcn/surveypack/*"
       ],
       "@src/*": [
         "src/*"
