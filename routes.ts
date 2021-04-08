@@ -87,6 +87,19 @@ export default [
             }
           },
           {
+            path: 'records/:id',
+            name: 'Records',
+            component: () =>
+              import(
+                /* webpackChunkName: "list-group" */ '@/views/panel/PanelRecords.vue'
+              ),
+            meta: {
+              roles: ['super'],
+              title: '回覆記錄',
+              icon: 'icon-list'
+            }
+          },
+          {
             path: 'editor/:id',
             name: 'Editor',
             component: () =>

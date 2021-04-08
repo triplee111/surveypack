@@ -1,5 +1,3 @@
-import { cnFormat } from '@src/utils/filter/numberFormat'
-
 export const listModel = {
   headers: [
     '名稱',
@@ -95,6 +93,36 @@ export const listModel = {
       label: '操作',
       field: 'action',
       align: 'left'
+    }
+  ]
+}
+
+export const recordModel = {
+  headers: ['會員帳號', '送出時間', '填答秒數'],
+  columns: [
+    {
+      name: 'account',
+      label: '會員帳號',
+      field: 'account',
+      required: true,
+      align: 'left',
+      sortable: true,
+      headerStyle: 'width: 200px; border-right: 1px solid #aaa'
+    },
+    {
+      name: 'utime',
+      label: '送出時間',
+      field: 'utime',
+      align: 'left',
+      sortable: true,
+      headerStyle: 'width: 180px;'
+    },
+    {
+      name: 'timeSpend',
+      label: '填答秒數',
+      field: 'timeSpend',
+      align: 'left',
+      sortable: true
     }
   ]
 }
