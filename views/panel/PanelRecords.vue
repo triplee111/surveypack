@@ -92,7 +92,7 @@ export default class PanelRecords extends CatchMixin {
 
     // 處理館別欄位
     for (const que of this.quesState) {
-      if (this.layoutTypes.includes(que.type)) {
+      if (!this.layoutTypes.includes(que.type)) {
         let field = `que-${que.id}`
 
         headers.splice(insertPos, 0, que.content)
