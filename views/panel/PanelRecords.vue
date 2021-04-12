@@ -118,8 +118,8 @@ export default class PanelRecords extends CatchMixin {
     }
   }
 
-  private replyFormat(reply: string) {
-    return reply.replaceAll(',', '<br />')
+  private replyFormat(reply?: string) {
+    return reply ? reply.replaceAll(',', '<br />') : ''
   }
 
   private truncate(text: string) {
