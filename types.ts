@@ -19,8 +19,8 @@ export interface QueOpt {
   id: number
   item: string
   visible: boolean
-  jump?: number // 跳題
-  concat?: number // 接題
+  jump?: number | string // 跳題
+  concat?: number | string // 接題
 }
 
 export interface Que {
