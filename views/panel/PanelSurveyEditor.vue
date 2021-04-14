@@ -185,13 +185,6 @@ export default class PanelSurveyEditor extends CatchMixin {
     }
   }
 
-  // leaved() {
-  //   this.$store.dispatch('survey/setListSurvey', {
-  //     ...this.config,
-  //     ques: this.ques
-  //   })
-  // }
-
   private async setter(step: number): Promise<void> {
     const currentRoute = this.$route.fullPath
     let sid = this.id
