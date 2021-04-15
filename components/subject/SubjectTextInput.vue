@@ -8,6 +8,8 @@
       HeaderGroup(
         icon="short_text"
         :no="no"
+        :qid="que.id"
+        :quesState="ques"
         :editState="editState"
         :required="que.required"
         :visible="que.visible")
@@ -54,6 +56,9 @@ import ContentInput from '@/components/feature/que/QueContentInput.vue'
   }
 })
 export default class SubjectTextInput extends Vue {
+  @Prop({ type: Array })
+  readonly ques!: Que[]
+
   @Prop({ type: Number })
   readonly order!: number
 
