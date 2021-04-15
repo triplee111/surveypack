@@ -15,6 +15,7 @@
                 v-for="(que, index) in ques"
                 v-model="ques[index]"
                 :key="que.id"
+                :ques="ques"
                 :no="getQueNo(index)"
                 :order="index + 1"
                 :is="getQueComp(que.type)"
@@ -329,6 +330,7 @@ export default class QuesConfig extends CatchMixin {
   @Watch('ques', { immediate: true })
   onQuesChanged(value: Que[]) {
     this.queLayoutIndex = value.reduce((acc: number[], que, index) => {
+      // TODO: change hardcode
       if (que.type === 'divider' || que.type === 'quote') {
         acc.push(index)
       }
