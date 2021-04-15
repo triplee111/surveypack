@@ -8,6 +8,8 @@
       HeaderGroup(
         icon="check_box"
         :no="no"
+        :qid="que.id"
+        :quesState="ques"
         :editState="editState"
         :required="que.required"
         :visible="que.visible")
@@ -23,6 +25,8 @@
     template(#que-sub="{ editState }")
       OptEditor(
         :no="no"
+        :qid="que.id"
+        :quesState="ques"
         :others.sync="que.config.others"
         :opts.sync="que.opts"
         :editState="editState")
@@ -54,6 +58,9 @@ import OptEditor from '@/components/feature/que/QueOptEditor.vue'
   }
 })
 export default class SubjectMultiAnswer extends Vue {
+  @Prop({ type: Array })
+  readonly ques!: Que[]
+
   @Prop({ type: Number })
   readonly order!: number
 

@@ -19,7 +19,18 @@
             debounce="100"
             outlined
             dense
-            @input="updOpt")
+            @input="updOpts")
+
+          .concat.q-mb-sm(v-if="opt.concat && opt.concat.length")
+            .link-icon.float-left
+              QIcon(
+                name="link"
+                size="1.25rem"
+                color="white")
+
+            .link-ques(style="margin-left: 40px;")
+              .text-body2.q-pb-sm(v-for="qid in opt.concat")
+                span {{ getQueConcated(qid) }}
 
         .opt-action.q-gutter-x-xs(v-show="editState")
           QIcon.cursor-pointer(
@@ -48,6 +59,18 @@
 
           QIcon.cursor-pointer.inline(
             size="xs"
+            :color="linkIconColor(opt)"
+            name="link"
+            @click="showConcatDialog(index)")
+            QTooltip(
+              anchor="top middle"
+              self="bottom middle"
+              transition-show="fade"
+              transition-hide="fade"
+              :offset="[0, 5]") 連接問題
+
+          QIcon.cursor-pointer.inline(
+            size="xs"
             color="grey-5"
             name="launch"
             @click="proWarning")
@@ -56,19 +79,7 @@
               self="bottom middle"
               transition-show="fade"
               transition-hide="fade"
-              :offset="[0, 5]") 跳至指定問題
-
-          QIcon.cursor-pointer.inline(
-            size="xs"
-            color="grey-5"
-            name="link"
-            @click="proWarning")
-            QTooltip(
-              anchor="top middle"
-              self="bottom middle"
-              transition-show="fade"
-              transition-hide="fade"
-              :offset="[0, 5]") 連接隱藏問題
+              :offset="[0, 5]") 跳至問題
 
           QIcon.cursor-pointer(
             size="xs"
@@ -80,8 +91,7 @@
               self="bottom middle"
               transition-show="fade"
               transition-hide="fade"
-              :offset="[0, 5]"
-              @click="proWarning") 隱藏選項
+              :offset="[0, 5]") 隱藏選項
 
     .row.opt-others(v-if='hasOthers')
       label.opt-drag.q-mr-sm.opt-label
@@ -94,7 +104,7 @@
           outlined
           debounce="100"
           dense
-          @input="updOpt")
+          @input="updOpts")
 
       .opt-action.q-gutter-x-xs(v-show="editState")
         QIcon.cursor-pointer.inline(
@@ -112,6 +122,18 @@
         QIcon.cursor-pointer.inline(
           size="xs"
           color="grey-5"
+          name="link"
+          @click="concatDialogState = true")
+          QTooltip(
+            anchor="top middle"
+            self="bottom middle"
+            transition-show="fade"
+            transition-hide="fade"
+            :offset="[0, 5]") 連接問題
+
+        QIcon.cursor-pointer.inline(
+          size="xs"
+          color="grey-5"
           name="launch"
           @click="proWarning")
           QTooltip(
@@ -119,19 +141,60 @@
             self="bottom middle"
             transition-show="fade"
             transition-hide="fade"
-            :offset="[0, 5]") 跳至指定問題
+            :offset="[0, 5]") 跳至問題
 
-        QIcon.cursor-pointer.inline(
-          size="xs"
-          color="grey-5"
-          name="link"
-          @click="proWarning")
-          QTooltip(
-            anchor="top middle"
-            self="bottom middle"
-            transition-show="fade"
-            transition-hide="fade"
-            :offset="[0, 5]") 連接隱藏問題
+    QDialog(
+      v-model="concatDialogState"
+      persistent)
+      QCard(style="min-width: 700px;")
+        QCardSection.bg-teal.text-white
+          span.text-body1 選擇連接的題目
+
+          QBtn.float-right(
+            color="grey-5"
+            v-close-popup
+            size="0.7rem"
+            dense
+            flat
+            icon="close")
+
+        QCardSection.text-body2
+          .row.q-mx-md.q-mb-md
+            .col-12.bg-light-blue-1.q-py-sm
+              span.text-blue-5 接題對象在前台會轉為隱藏狀態，只有在使用者選擇對應選項時，才會出現；單一選項可連接多個題目。
+              span.text-blue-5 接題隱藏跟題目的隱藏屬性各別獨立，題項隱藏屬性優先於接題
+
+          QMarkupTable(
+            v-if="concatDialogState"
+            flat)
+            thead
+              tr.text-grey-7
+                th(width="5%") #
+                th(width="4%")
+                th 題目
+            tbody
+              tr(v-for="que in relationQues")
+                td(style="padding: 0")
+                  QCheckbox(
+                    v-model="concatSelected"
+                    :val="que.id")
+                td.text-blue-grey-6.text-center(style="padding: 0") {{ que.no }}
+                td
+                  span.text-body2 {{ que.content }}
+
+        QCardActions.q-mt-sm.bg-white.text-teal(align="right")
+          QBtn(
+            v-close-popup
+            color="primary"
+            flat
+            label="取消接題"
+            @click="resetConcat()")
+          QBtn(
+            v-close-popup
+            color="primary"
+            unelevated
+            label="確定"
+            @click="setConcat()")
 
 </template>
 
@@ -139,10 +202,10 @@
 import cloneDeep from 'lodash/cloneDeep'
 import draggable from 'vuedraggable'
 
-import { QTooltip } from 'quasar'
+import { QTooltip, QIcon, QDialog, QCardActions, QMarkupTable } from 'quasar'
 import { Prop, Component, Vue } from 'vue-property-decorator'
 
-import { QueOpt } from '@/types'
+import { QueOpt, Que } from '@/types'
 import { optOthers } from '@/units/template'
 
 import { warning } from '@src/utils/notify/notify-quasar'
@@ -150,12 +213,19 @@ import { warning } from '@src/utils/notify/notify-quasar'
 @Component({
   components: {
     QTooltip,
-    draggable
+    QIcon,
+    draggable,
+    QDialog,
+    QCardActions,
+    QMarkupTable
   }
 })
 export default class QueOptEditor extends Vue {
   @Prop({ type: Number })
   readonly no!: number
+
+  @Prop()
+  readonly qid!: number | string
 
   @Prop({ type: Boolean, default: false })
   readonly others!: boolean
@@ -166,8 +236,47 @@ export default class QueOptEditor extends Vue {
   @Prop({ type: Boolean, default: false })
   readonly editState!: boolean
 
+  @Prop({ type: Array })
+  readonly quesState!: Que[] // 元件的 ques data, 非 store data
+
   private optsModel: QueOpt[] = []
   private optOthers = { ...optOthers }
+
+  private concatTargetIndex = -1
+  private concatSelected: Array<string | number> = []
+
+  private concatDialogState = false
+
+  get relationQues() {
+    let no = 0
+
+    return this.quesState.reduce(
+      (acc, que) => {
+        if (que.type === 'quote' || que.type === 'divider') {
+          return acc
+        }
+
+        no++
+
+        if (que.id === this.qid) {
+          return acc
+        }
+
+        acc.push({
+          no,
+          id: que.id,
+          content: que.content
+        })
+
+        return acc
+      },
+      [] as Array<{
+        no: number
+        id: string | number
+        content: string
+      }>
+    )
+  }
 
   get hasOthers() {
     return this.others
@@ -183,6 +292,7 @@ export default class QueOptEditor extends Vue {
   mounted() {
     this.observeOpts()
     this.observeOthers()
+    this.observeRelationQuesState()
   }
 
   private observeOpts() {
@@ -216,6 +326,32 @@ export default class QueOptEditor extends Vue {
     })
   }
 
+  private observeRelationQuesState() {
+    this.$watch('relationQues', (state: Que[], oldState: Que[]) => {
+      if (state.length < oldState.length) {
+        const queRemoved = oldState.filter(
+          ({ id: id1 }) => !state.some(({ id: id2 }) => id2 === id1)
+        )
+        const qid = queRemoved[0].id
+
+        this.optsModel = this.optsModel.map(opt => {
+          if (opt.concat && opt.concat.includes(qid)) {
+            const index = opt.concat.indexOf(qid)
+            opt.concat.splice(index, 1)
+
+            if (opt.concat?.length === 0) {
+              delete opt.concat
+            }
+          }
+
+          return opt
+        })
+
+        this.updOpts()
+      }
+    })
+  }
+
   private add() {
     if (this.optNums >= 15) return
 
@@ -225,7 +361,7 @@ export default class QueOptEditor extends Vue {
       visible: true
     })
 
-    this.updOpt()
+    this.updOpts()
   }
 
   private remove(index: number) {
@@ -233,7 +369,7 @@ export default class QueOptEditor extends Vue {
 
     this.optsModel.splice(index, 1)
 
-    this.updOpt()
+    this.updOpts()
   }
 
   private toggleVisible(index: number, opt: QueOpt) {
@@ -241,7 +377,7 @@ export default class QueOptEditor extends Vue {
 
     this.optsModel[index].visible = opt.visible
 
-    this.updOpt()
+    this.updOpts()
   }
 
   private removeOtherOpt() {
@@ -251,7 +387,7 @@ export default class QueOptEditor extends Vue {
     this.$emit('update:opts', this.optsModel)
   }
 
-  private updOpt() {
+  private updOpts() {
     if (this.hasOthers) {
       this.$emit('update:opts', this.optsModel.concat(this.optOthers))
     } else {
@@ -261,6 +397,78 @@ export default class QueOptEditor extends Vue {
 
   private getChar(index: number) {
     return String.fromCharCode(index + 97)
+  }
+
+  private getQueConcated(qid: string | number) {
+    const que = this.relationQues.find(que => que.id === qid)
+
+    return que?.content
+  }
+
+  private linkIconColor(opt: QueOpt) {
+    return opt.concat?.length ? 'blue' : 'grey-5'
+  }
+
+  private showConcatDialog(index: number) {
+    const opt = this.optsModel[index]
+
+    if (opt.concat) {
+      this.concatSelected = [...opt.concat]
+    }
+
+    this.concatTargetIndex = index
+    this.concatDialogState = true
+  }
+
+  private setConcat() {
+    if (this.concatSelected.length > 0) {
+      if (this.concatTargetIndex === -1) {
+        // option others handler
+        this.optOthers.concat = [...this.concatSelected]
+      } else {
+        const opt = this.optsModel[this.concatTargetIndex]
+        opt.concat = [...this.concatSelected]
+
+        this.optsModel.splice(this.concatTargetIndex, 1, opt)
+      }
+    } else {
+      if (this.concatTargetIndex === -1) {
+        delete this.optOthers.concat
+      } else {
+        const opt = this.optsModel[this.concatTargetIndex]
+        delete opt.concat
+
+        this.optsModel.splice(this.concatTargetIndex, 1, opt)
+      }
+    }
+
+    this.updOpts()
+
+    this.concatTargetIndex = -1
+    this.concatSelected = []
+  }
+
+  private resetConcat() {
+    const opt = this.optsModel[this.concatTargetIndex]
+
+    if (this.concatTargetIndex === -1) {
+      if (this.optOthers.concat && this.optOthers.concat.length === 0) {
+        delete this.optOthers.concat
+
+        this.updOpts()
+      }
+    } else {
+      if (opt.concat && opt.concat.length === 0) {
+        delete opt.concat
+
+        this.optsModel.splice(this.concatTargetIndex, 1, opt)
+        this.updOpts()
+      }
+
+      this.concatTargetIndex = -1
+    }
+
+    this.concatSelected = []
   }
 
   private proWarning() {
@@ -302,4 +510,11 @@ export default class QueOptEditor extends Vue {
     .opt-label
       &:hover
         background-color #eee
+
+  .link-icon
+    display inline
+    background-color #29b6f6
+    border-radius 1.5rem
+    padding 0 2.5px 3px
+    vertical-align bottom
 </style>
