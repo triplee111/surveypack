@@ -26,8 +26,10 @@ export default class SubjectContainer extends Vue {
     return this.que.id
   }
 
-  get quesState() {
-    return this.$store.getters['survey/targetQues']
+  get queState() {
+    return this.$store.getters['survey/targetQues'].find(
+      (q: Que) => q.id === this.qid
+    )
   }
 
   get queModel() {
@@ -64,7 +66,7 @@ export default class SubjectContainer extends Vue {
   }
 
   render() {
-    const { editState } = this
+    const { editState, queState } = this
 
     const QueAction = (vnode: any) => (
       <q-icon
@@ -218,18 +220,12 @@ export default class SubjectContainer extends Vue {
             {...{
               on: {
                 click: () => {
-                  const qno = this.quesState.findIndex(
-                    (q: Que) => q.id === this.qid
-                  )
-
-                  if (qno === -1) {
-                    this.$emit('cancel')
-                  } else {
-                    const queState = this.quesState[qno]
-
+                  if (queState) {
                     this.queModel = JSON.parse(JSON.stringify(queState))
 
                     this.editState = false
+                  } else {
+                    this.$emit('cancel')
                   }
                 }
               }
@@ -245,14 +241,10 @@ export default class SubjectContainer extends Vue {
             {...{
               on: {
                 click: () => {
-                  const qno = this.quesState.findIndex(
-                    (q: Que) => q.id === this.qid
-                  )
-
-                  if (qno === -1) {
-                    this.$store.dispatch('survey/addQue', this.que)
-                  } else {
+                  if (queState) {
                     this.$store.dispatch('survey/updQue', this.que)
+                  } else {
+                    this.$store.dispatch('survey/addQue', this.que)
                   }
 
                   this.editState = false
