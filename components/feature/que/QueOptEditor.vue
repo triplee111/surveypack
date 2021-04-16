@@ -132,9 +132,9 @@
 
         QIcon.cursor-pointer.inline(
           size="xs"
-          color="grey-5"
+          :color="linkIconColor(optOthers)"
           name="link"
-          @click="concatDialogState = true")
+          @click="showConcatDialog(-1)")
           QTooltip(
             anchor="top middle"
             self="bottom middle"
@@ -421,7 +421,7 @@ export default class QueOptEditor extends Vue {
   }
 
   private showConcatDialog(index: number) {
-    const opt = this.optsModel[index]
+    const opt = index === -1 ? this.optOthers : this.optsModel[index]
 
     if (opt.concat) {
       this.concatSelected = [...opt.concat]
