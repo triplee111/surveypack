@@ -25,10 +25,10 @@
             .link-icon.float-left
               QIcon(
                 name="link"
-                size="1.25rem"
+                size="1rem"
                 color="white")
 
-            .link-ques(style="margin-left: 40px;")
+            .link-ques(style="margin-left: 35px;")
               .text-body2.q-pb-sm(v-for="qid in opt.concat")
                 span {{ getQueConcated(qid) }}
 
@@ -106,6 +106,17 @@
           dense
           @input="updOpts")
 
+        .concat.q-mb-sm(v-if="optOthers.concat && optOthers.concat.length")
+          .link-icon.float-left
+            QIcon(
+              name="link"
+              size="1rem"
+              color="white")
+
+          .link-ques(style="margin-left: 35px;")
+            .text-body2.q-pb-sm(v-for="qid in optOthers.concat")
+              span {{ getQueConcated(qid) }}
+
       .opt-action.q-gutter-x-xs(v-show="editState")
         QIcon.cursor-pointer.inline(
           size="xs"
@@ -121,9 +132,9 @@
 
         QIcon.cursor-pointer.inline(
           size="xs"
-          color="grey-5"
+          :color="linkIconColor(optOthers)"
           name="link"
-          @click="concatDialogState = true")
+          @click="showConcatDialog(-1)")
           QTooltip(
             anchor="top middle"
             self="bottom middle"
@@ -410,7 +421,7 @@ export default class QueOptEditor extends Vue {
   }
 
   private showConcatDialog(index: number) {
-    const opt = this.optsModel[index]
+    const opt = index === -1 ? this.optOthers : this.optsModel[index]
 
     if (opt.concat) {
       this.concatSelected = [...opt.concat]
@@ -515,6 +526,7 @@ export default class QueOptEditor extends Vue {
     display inline
     background-color #29b6f6
     border-radius 1.5rem
-    padding 0 2.5px 3px
-    vertical-align bottom
+    padding 0 2.5px
+    line-height 1rem
+    height 20px
 </style>
