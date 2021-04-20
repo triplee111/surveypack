@@ -152,6 +152,8 @@ export default class PanelRecords extends CatchMixin {
   /* specifying max-width so the example can
     highlight the sticky column on any browser window */
   max-width 100%
+  th:first-child
+    background-color #fff
 
   td:first-child
     border-right 1px solid #ccc
