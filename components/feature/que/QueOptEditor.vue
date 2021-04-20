@@ -413,7 +413,7 @@ export default class QueOptEditor extends Vue {
   private getQueConcated(qid: string | number) {
     const que = this.relationQues.find(que => que.id === qid)
 
-    return que?.content
+    return `${que?.no}. ${que?.content}`
   }
 
   private linkIconColor(opt: QueOpt) {
